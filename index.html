@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>这个天才又来啦❤️</title>
+</head>
+<body>
+
+<div id="app">
+ <product_page :plist="product_list" :cclist="class_list"></product_page>
+ <class_page :clist="class_list"></class_page>
+</div>
+
+<template id="tpl-product-page">
+    <div>
+        <form @submit.prevent="trigger('add_up',product_list_item)">
+            <input type="text" placeholder="请输入商品名称" v-model="product_list_item.title">
+            <input type="text" placeholder="请输入商品价格" v-model="product_list_item.price">
+            <select v-model="product_list_item.cat_id" required>
+                <option value=''>-请选择-</option>
+                <option v-for="class_ff in cclist" :value="class_ff.id">{{class_ff.title}}</option>
+            </select>
+            <button type="submit">提交</button>
+        </form>
+        <div v-for=" item in plist">
+            名称: <span>{{item.title}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+            价格:<span>{{item.price}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            ID : <span>{{item.id}}</span>&nbsp;&nbsp;
+            CAT-ID : <span>{{item.cat_id}}</span>&nbsp;&nbsp;
+            <button @click="trigger('to_del',item.id)">删除</button>
+            <button @click="filler_page(item)">更新</button>
+        </div>
+    </div>
+</template>
+<template id="tpl-class-page">
+    <div>
+        <form @submit.prevent="trigger_two('add_up_two',class_list_item)">
+            <input type="text" placeholder="请输入分类名称" v-model="class_list_item.title">
+            <select v-model.number="class_list_item.parent_id" required>
+                <option value=0 selected="selected">- 默认选中项 -</option>
+                <option v-for="item in clist" :value="item.id">{{item.title}}</option>
+            </select>
+            <button type="submit">提交</button>
+        </form>
+        <div v-for=" item in clist">
+            名称: <span>{{item.title}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+            ID : <span>{{item.id}}</span>&nbsp;&nbsp;
+            父ID : <span>{{item.parent_id}}</span>&nbsp;&nbsp;
+            <button @click="trigger_two('to_del_two',item.id)">删除</button>
+            <button @click="filler_page_two(item)">更新</button>
+        </div>
+    </div>
+</template>
+
+<script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+<script src="local.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
